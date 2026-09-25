@@ -1,0 +1,16 @@
+*.iml
+.gradle/
+/local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+
+# Per-module build outputs
+app/build/
+
+# Android IDE-on-device project metadata (RV2IDE)
+.acside/

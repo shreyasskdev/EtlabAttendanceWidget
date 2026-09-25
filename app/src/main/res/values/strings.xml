@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LBSCEK Attendance</string>
+    <string name="widget_description">Shows your live LBSCEK Etlab attendance</string>
+</resources>
