@@ -54,7 +54,10 @@ import `in`.lbscek.attendance.ui.MainActivity
 class AttendanceWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val prefs = AttendancePrefs(context)
+        // CRITICAL FIX: Force applicationContext to ensure we hit the
+        // exact same EncryptedSharedPreferences singleton instance
+        val prefs = AttendancePrefs(context.applicationContext)
+
         val result = prefs.getLastResult()
         val updatedText = prefs.getLastUpdatedText()
         val hasCredentials = prefs.hasCredentials()
@@ -63,7 +66,6 @@ class AttendanceWidget : GlanceAppWidget() {
 
         provideContent {
             GlanceTheme {
-                //WidgetContent(hasCredentials, result, updatedText, subjectNameOverrides)
                 WidgetContent(hasCredentials, result, updatedText, subjectNameOverrides, useCustomNames)
             }
         }
@@ -111,9 +113,6 @@ class AttendanceWidget : GlanceAppWidget() {
 
                     Spacer(modifier = GlanceModifier.width(7.dp))
 
-                    // Column instead of LazyColumn: LazyColumn is inherently
-                    // scrollable, and we want the 4 rows to divide the
-                    // available height evenly so they always fit.
                     Column(
                         modifier = GlanceModifier
                             .defaultWeight()
@@ -149,7 +148,6 @@ class AttendanceWidget : GlanceAppWidget() {
                                         isBottomRight = isBottomRow
                                     )
                                 } else {
-                                    // Odd one out: let it take the whole row width.
                                     SubjectCard(
                                         subject = pair[0],
                                         label = labelFor(pair[0], subjectNameOverrides, useCustomNames),
@@ -167,11 +165,6 @@ class AttendanceWidget : GlanceAppWidget() {
         }
     }
 
-//    private fun labelFor(subject: SubjectAttendance, overrides: Map<String, String>): String {
-//        overrides[subject.code]?.takeIf { it.isNotBlank() }?.let { return it }
-//        if (subject.name.isNotBlank()) return subject.name
-//        return subject.code
-//    }
     private fun labelFor(
         subject: SubjectAttendance,
         overrides: Map<String, String>,
@@ -193,14 +186,12 @@ class AttendanceWidget : GlanceAppWidget() {
         val statusLabel = if (overallPercent >= 75.0) "On Track" else "Low"
         val labelColor = GlanceTheme.colors.primaryContainer.getColor(LocalContext.current)
         val labelColorProvider = GlanceTheme.colors.primaryContainer
-        // val labelColor = GlanceTheme.colors.onPrimaryContainer.getColor(LocalContext.current)
 
         Box(
             modifier = modifier
                 .background(
                     imageProvider = ImageProvider(R.drawable.bg_card_summary),
                     colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer),
-                    // colorFilter = ColorFilter.tint(GlanceTheme.colors.primaryContainer)
                 )
                 .padding(10.dp)
         ) {
@@ -260,11 +251,6 @@ class AttendanceWidget : GlanceAppWidget() {
         }
     }
 
-    /**
-     * Glance's [Text] has no rotation support, so we rasterize the string to a
-     * bitmap and rotate it 90 degrees. The resulting Image occupies swapped
-     * width/height dimensions compared to the upright text.
-     */
     @Composable
     private fun RotatedText(
         text: String,
