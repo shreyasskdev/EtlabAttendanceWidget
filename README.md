@@ -1,19 +1,38 @@
-# LBSCEK Attendance Widget
+# TileDeck Widgets
 
-A native Android home-screen widget that logs into LBSCEK's Etlab portal
-(`lbscek.etlab.app`) and shows your live attendance percentage, refreshed
-automatically a few times a day.
+An unofficial, widget-only Android app that logs into your college's Etlab
+portal (e.g. `lbscek.etlab.app`) and surfaces attendance as a live home-screen
+widget — refreshed automatically in the background.
+
+Not affiliated with Etlab, Etuwa Concepts, or any institution.
+
+## Screenshots
+<img width="300" alt="Screenshot" src="https://github.com/user-attachments/assets/564b6582-9fdc-4bd4-9ba1-2e9e28e4a8a6" />
 
 ## How it works
-- **Login**: replays Etlab's own login form (`POST /user/login`) with your
-  username/password.
-- **Scrape**: fetches `/ktuacademics/student/viewattendancesubject/{semester}`
-  and parses the attendance table with Jsoup.
-- **Storage**: credentials + last result are kept in `EncryptedSharedPreferences`,
-  on-device only.
-- **Refresh**: a WorkManager job re-fetches every 3 hours; you can also tap
-  "Refresh now" on the widget itself.
-- **Widget**: built with Jetpack Glance (Compose for App Widgets).
+- **Login**: authenticates against Etlab's mobile/app API using your
+  username/password (no HTML form replay).
+- **Fetch**: calls Etlab's app API endpoints directly for attendance data
+  (no HTML scraping).
+- **Storage**: credentials + last fetched results are kept in
+  `EncryptedSharedPreferences`, on-device only.
+- **Refresh**: a WorkManager job re-fetches periodically; you can also tap
+  **Refresh now** on the widget.
+- **Widget**: built with Jetpack Glance (Compose for App Widgets), tile-based
+  layouts sized for the home screen.
+
+## Widgets
+Each widget shows one slice of your data at a glance. Currently shipped:
+
+- **Attendance** — per-subject and overall percentage
+
+## Todo
+Planned tile types (implementation would follow the same pattern: a Glance
+widget + a matching data source in the repository layer):
+
+- [ ] **Marks** — internal / series exam marks
+- [ ] **Timetable** — today's or the current slot's classes
+- [ ] **Overview** — a compact combined tile
 
 ## Setup
 1. Open this folder in **Android Studio** (Giraffe or newer). It will
@@ -21,29 +40,21 @@ automatically a few times a day.
 2. Let Gradle sync — it needs internet access to `google()` and
    `mavenCentral()` the first time, to pull dependencies.
 3. Run the app on a device/emulator (min SDK 26).
-4. Enter your Etlab username/password and your current semester, tap
-   **Save & fetch attendance**.
-5. Long-press your home screen → Widgets → "LBSCEK Attendance" → drag it on.
-
-## Known limitations / things to check
-- The app icon uses a placeholder system icon (`@android:drawable/sym_def_app_icon`)
-  — swap in your own via Android Studio's Image Asset tool if you want a
-  custom launcher icon.
-- The HTML scraping selectors (`table.items`) match the standard Etlab/Etuwa
-  layout used by the reference `rit-etlab-api` project. If LBSCEK's instance
-  renders anything differently, open the attendance page's HTML source and
-  compare it against `EtlabRepository.parseAttendance()` — you may need to
-  tweak the parsing logic slightly.
-- If Etlab ever adds CAPTCHA or 2FA to login, this scraping approach will
-  break (this is unofficial and not affiliated with Etlab/Etuwa Concepts).
-- Semester is currently a single number you set once; if you want it to
-  auto-advance each semester, that'd need a small addition.
+4. Enter your Etlab username/password and your current semester, then tap
+   **Save & fetch**.
+5. Long-press your home screen → Widgets → **TileDeck** → drag the
+   Attendance widget on.
 
 ## Project layout
 ```
-app/src/main/java/in/lbscek/attendance/
-  data/     EtlabRepository (login+scrape), AttendancePrefs (encrypted storage), models
-  work/     AttendanceWorker (periodic background refresh)
-  widget/   AttendanceWidget (Glance UI), AttendanceWidgetReceiver
-  ui/       MainActivity (setup screen)
+app/src/main/java/.../
+  data/     EtlabRepository (login + API fetch), encrypted prefs, models
+  work/     Periodic background refresh (WorkManager)
+  widget/   Glance widgets + widget receivers
+  ui/       MainActivity (setup / credentials screen)
 ```
+
+## Naming note
+The app title is **TileDeck Widgets**. Etlab is referenced only as a
+compatibility target — never in the app title, package name, or launcher
+label — to avoid trademark issues on the Play Store.
