@@ -1,33 +1,16 @@
 {
     "logs": [
         {
-            "outputFile": "in.lbscek.attendance.app-mergeDebugResources-56:/values-v23/values-v23.xml",
+            "outputFile": "in.lbscek.attendance.app-mergeDebugResources-48:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "/home/shreyas/.gradle/caches/9.6.0/transforms/c3f898df5a9d46d4f6b24d83941e8299/transformed/glance-appwidget-1.1.1/res/values-v23/values-v23.xml",
+                    "source": "/home/shreyas/.gradle/caches/9.6.0/transforms/5903ce3ec01a7ee1fc81464e3586758a/transformed/glance-appwidget-1.3.0-alpha02/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
                         "endColumns": "55",
                         "endOffsets": "106"
-                    },
-                    "to": {
-                        "startLines": "4",
-                        "startColumns": "4",
-                        "startOffsets": "184",
-                        "endColumns": "55",
-                        "endOffsets": "235"
-                    }
-                },
-                {
-                    "source": "/home/shreyas/.gradle/caches/9.6.0/transforms/30fad310679e590d2137a17778a1b4bb/transformed/work-runtime-2.9.1/res/values-v23/values-v23.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,121",
-                        "endColumns": "65,62",
-                        "endOffsets": "116,179"
                     }
                 }
             ]

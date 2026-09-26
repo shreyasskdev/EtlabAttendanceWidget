@@ -11,6 +11,8 @@ drawable bg_card_outer_bottom_right
 drawable bg_card_outer_top_bottom_right
 drawable bg_card_outer_top_right
 drawable bg_card_summary
+drawable bg_clamshell_shape
+drawable bg_heart_shape
 drawable bg_subject_card
 drawable bg_subject_card_error
 drawable bg_subject_card_secondary
@@ -20,3 +22,4 @@ string app_name
 string widget_description
 style Theme.AttendanceWidget
 xml attendance_widget_info
+xml total_percentage_widget_info

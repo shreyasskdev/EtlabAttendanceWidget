@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Full Attendance widget -->
         <receiver
             android:name=".widget.AttendanceWidgetReceiver"
             android:exported="false">
@@ -27,6 +28,16 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/attendance_widget_info" />
+        </receiver>
+
+        <!-- Small Attendance widget -->
+        <receiver android:name=".widget.TotalPercentageWidgetReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/total_percentage_widget_info" />
         </receiver>
 
     </application>

@@ -59,10 +59,12 @@ class AttendanceWidget : GlanceAppWidget() {
         val updatedText = prefs.getLastUpdatedText()
         val hasCredentials = prefs.hasCredentials()
         val subjectNameOverrides = prefs.getSubjectNames()
+        val useCustomNames = prefs.getUseCustomNames()
 
         provideContent {
             GlanceTheme {
-                WidgetContent(hasCredentials, result, updatedText, subjectNameOverrides)
+                //WidgetContent(hasCredentials, result, updatedText, subjectNameOverrides)
+                WidgetContent(hasCredentials, result, updatedText, subjectNameOverrides, useCustomNames)
             }
         }
     }
@@ -72,7 +74,8 @@ class AttendanceWidget : GlanceAppWidget() {
         hasCredentials: Boolean,
         result: AttendanceResult?,
         updatedText: String,
-        subjectNameOverrides: Map<String, String>
+        subjectNameOverrides: Map<String, String>,
+        useCustomNames: Boolean
     ) {
         val context = LocalContext.current
 
@@ -106,7 +109,7 @@ class AttendanceWidget : GlanceAppWidget() {
                             .clickable(actionStartActivity(Intent(context, MainActivity::class.java)))
                     )
 
-                    Spacer(modifier = GlanceModifier.width(6.dp))
+                    Spacer(modifier = GlanceModifier.width(7.dp))
 
                     // Column instead of LazyColumn: LazyColumn is inherently
                     // scrollable, and we want the 4 rows to divide the
@@ -130,7 +133,7 @@ class AttendanceWidget : GlanceAppWidget() {
                                 if (pair.size == 2) {
                                     SubjectCard(
                                         subject = pair[0],
-                                        label = labelFor(pair[0], subjectNameOverrides),
+                                        label = labelFor(pair[0], subjectNameOverrides, useCustomNames),
                                         context = context,
                                         modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
                                         isTopRight = false,
@@ -139,7 +142,7 @@ class AttendanceWidget : GlanceAppWidget() {
                                     Spacer(modifier = GlanceModifier.width(7.dp))
                                     SubjectCard(
                                         subject = pair[1],
-                                        label = labelFor(pair[1], subjectNameOverrides),
+                                        label = labelFor(pair[1], subjectNameOverrides, useCustomNames),
                                         context = context,
                                         modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
                                         isTopRight = isTopRow,
@@ -149,7 +152,7 @@ class AttendanceWidget : GlanceAppWidget() {
                                     // Odd one out: let it take the whole row width.
                                     SubjectCard(
                                         subject = pair[0],
-                                        label = labelFor(pair[0], subjectNameOverrides),
+                                        label = labelFor(pair[0], subjectNameOverrides, useCustomNames),
                                         context = context,
                                         modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
                                         isTopRight = isTopRow,
@@ -164,8 +167,19 @@ class AttendanceWidget : GlanceAppWidget() {
         }
     }
 
-    private fun labelFor(subject: SubjectAttendance, overrides: Map<String, String>): String {
-        overrides[subject.code]?.takeIf { it.isNotBlank() }?.let { return it }
+//    private fun labelFor(subject: SubjectAttendance, overrides: Map<String, String>): String {
+//        overrides[subject.code]?.takeIf { it.isNotBlank() }?.let { return it }
+//        if (subject.name.isNotBlank()) return subject.name
+//        return subject.code
+//    }
+    private fun labelFor(
+        subject: SubjectAttendance,
+        overrides: Map<String, String>,
+        useCustomNames: Boolean
+    ): String {
+        if (useCustomNames) {
+            overrides[subject.code]?.takeIf { it.isNotBlank() }?.let { return it }
+        }
         if (subject.name.isNotBlank()) return subject.name
         return subject.code
     }

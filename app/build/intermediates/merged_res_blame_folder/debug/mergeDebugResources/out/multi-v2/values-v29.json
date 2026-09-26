@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "in.lbscek.attendance.app-mergeDebugResources-56:/values-v29/values-v29.xml",
+            "outputFile": "in.lbscek.attendance.app-mergeDebugResources-48:/values-v29/values-v29.xml",
             "map": [
                 {
-                    "source": "/home/shreyas/.gradle/caches/9.6.0/transforms/c3f898df5a9d46d4f6b24d83941e8299/transformed/glance-appwidget-1.1.1/res/values-v29/values-v29.xml",
+                    "source": "/home/shreyas/.gradle/caches/9.6.0/transforms/5903ce3ec01a7ee1fc81464e3586758a/transformed/glance-appwidget-1.3.0-alpha02/res/values-v29/values-v29.xml",
                     "from": {
                         "startLines": "2,5,19,22,25,26,27",
                         "startColumns": "4,4,4,4,4,4,4",

@@ -1,70 +1,58 @@
 [
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_subject_card.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_subject_card.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_subject_card_tertiary.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_subject_card_tertiary.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_card_outer_top_bottom_right.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_card_outer_top_bottom_right.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_subject_card.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_subject_card.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/xml_attendance_widget_info.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/xml/attendance_widget_info.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_card_outer_top_right.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_card_outer_top_right.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_subject_card_error.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_subject_card_error.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_card_outer_bottom_right.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_card_outer_bottom_right.xml"
     },
     {
-        "merged": "in.lbscek.attendance.app-debug-58:/drawable_bg_card_outer_bottom_right.xml.flat",
-        "source": "in.lbscek.attendance.app-main-60:/drawable/bg_card_outer_bottom_right.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_heart_shape.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_heart_shape.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_card_inner.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_card_inner.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_widget.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_widget.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_subject_card_secondary.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_subject_card_secondary.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_subject_card_error.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_subject_card_error.xml"
     },
     {
-        "merged": "in.lbscek.attendance.app-debug-58:/drawable_bg_card_outer_top_bottom_right.xml.flat",
-        "source": "in.lbscek.attendance.app-main-60:/drawable/bg_card_outer_top_bottom_right.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/xml_attendance_widget_info.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/xml/attendance_widget_info.xml"
     },
     {
-        "merged": "in.lbscek.attendance.app-debug-58:/drawable_bg_card_inner.xml.flat",
-        "source": "in.lbscek.attendance.app-main-60:/drawable/bg_card_inner.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_card_summary.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_card_summary.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_card_outer_bottom_right.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_card_outer_bottom_right.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_card_inner.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_card_inner.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_subject_card_tertiary.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_subject_card_tertiary.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_clamshell_shape.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_clamshell_shape.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_widget.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_widget.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/xml_total_percentage_widget_info.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/xml/total_percentage_widget_info.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_card_summary.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_card_summary.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_card_outer_top_bottom_right.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_card_outer_top_bottom_right.xml"
     },
     {
-        "merged": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-debug-58:/drawable_bg_card_outer_top_right.xml.flat",
-        "source": "/home/shreyas/.gradle/daemon/9.6.0/in.lbscek.attendance.app-main-60:/drawable/bg_card_outer_top_right.xml"
-    },
-    {
-        "merged": "in.lbscek.attendance.app-debug-58:/drawable_bg_card_summary.xml.flat",
-        "source": "in.lbscek.attendance.app-main-60:/drawable/bg_card_summary.xml"
-    },
-    {
-        "merged": "in.lbscek.attendance.app-debug-58:/drawable_bg_card_outer_top_right.xml.flat",
-        "source": "in.lbscek.attendance.app-main-60:/drawable/bg_card_outer_top_right.xml"
-    },
-    {
-        "merged": "in.lbscek.attendance.app-debug-58:/drawable_bg_widget.xml.flat",
-        "source": "in.lbscek.attendance.app-main-60:/drawable/bg_widget.xml"
+        "merged": "in.lbscek.attendance.app-debug-50:/drawable_bg_subject_card_secondary.xml.flat",
+        "source": "in.lbscek.attendance.app-main-52:/drawable/bg_subject_card_secondary.xml"
     }
 ]

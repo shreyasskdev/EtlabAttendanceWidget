@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="110dp"
+    android:height="110dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- This path draws the rounded hexagon "Clamshell" shape -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M8,2 L16,2 C18,2 20,3 21,5 L22,10 C23,12 23,12 22,14 L21,19 C20,21 18,22 16,22 L8,22 C6,22 4,21 3,19 L2,14 C1,12 1,12 2,10 L3,5 C4,3 6,2 8,2 Z"/>
+</vector>

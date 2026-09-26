@@ -39,7 +39,8 @@ class EtlabRepository(private val baseClient: OkHttpClient = OkHttpClient()) {
             .toString()
 
         val request = Request.Builder()
-            .url("$ETLAB_BASE_URL/app/login")
+            //.url("$ETLAB_BASE_URL/app/login")
+            .url("$ETLAB_BASE_URL/androidapp/app/login")
             .header("User-Agent", ETLAB_USER_AGENT)
             .header("Content-Type", "application/json")
             .post(payload.toRequestBody(jsonMediaType))
@@ -48,7 +49,10 @@ class EtlabRepository(private val baseClient: OkHttpClient = OkHttpClient()) {
         baseClient.newCall(request).execute().use { response ->
             val bodyText = response.body?.string().orEmpty()
             val json = runCatching { JSONObject(bodyText) }.getOrNull()
-                ?: throw ParsingException("Etlab returned an unexpected login response.")
+                ?: throw ParsingException(
+                    "Login response wasn't JSON. HTTP ${response.code}. " +
+                            "Body starts with: ${bodyText.take(300).replace("\n", " ")}"
+                )
 
             val loggedIn = json.optBoolean("login", false)
             val accessToken = json.optString("access_token", "")
@@ -67,7 +71,8 @@ class EtlabRepository(private val baseClient: OkHttpClient = OkHttpClient()) {
         val payload = JSONObject().put("sem_id", "").toString()
 
         val request = Request.Builder()
-            .url("$ETLAB_BASE_URL/app/attendancebysubject")
+            //.url("$ETLAB_BASE_URL/app/attendancebysubject")
+            .url("$ETLAB_BASE_URL/androidapp/app/attendancebysubject")
             .header("User-Agent", ETLAB_USER_AGENT)
             .header("Content-Type", "application/json")
             .header("Authorization", "Bearer $accessToken")
