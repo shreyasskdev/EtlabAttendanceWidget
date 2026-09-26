@@ -5,6 +5,8 @@ import org.json.JSONObject
 
 data class SubjectAttendance(
     val code: String,
+    /** Real subject name, as fetched from Etlab's own API. May be blank on old cached data. */
+    val name: String,
     val present: Int,
     val total: Int,
     val percent: Double
@@ -23,6 +25,7 @@ data class AttendanceResult(
         subjects.forEach { s ->
             val o = JSONObject()
             o.put("code", s.code)
+            o.put("name", s.name)
             o.put("present", s.present)
             o.put("total", s.total)
             o.put("percent", s.percent)
@@ -44,6 +47,7 @@ data class AttendanceResult(
                 val o = arr.getJSONObject(i)
                 SubjectAttendance(
                     code = o.getString("code"),
+                    name = o.optString("name", ""),
                     present = o.getInt("present"),
                     total = o.getInt("total"),
                     percent = o.getDouble("percent")

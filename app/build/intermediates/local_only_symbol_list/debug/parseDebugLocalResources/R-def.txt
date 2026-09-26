@@ -1,5 +1,6 @@
 R_DEF: Internal format may change without notice
 local
+drawable bg_widget
 string app_name
 string widget_description
 style Theme.AttendanceWidget

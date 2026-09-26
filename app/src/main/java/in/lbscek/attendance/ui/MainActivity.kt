@@ -4,16 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +26,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.glance.appwidget.updateAll
@@ -39,9 +35,7 @@ import `in`.lbscek.attendance.data.EtlabRepository
 import `in`.lbscek.attendance.data.InvalidCredentialsException
 import `in`.lbscek.attendance.widget.AttendanceWidget
 import `in`.lbscek.attendance.work.AttendanceWorker
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,15 +58,12 @@ fun AttendanceSetupScreen() {
 
     var username by remember { mutableStateOf(prefs.getUsername() ?: "") }
     var password by remember { mutableStateOf(prefs.getPassword() ?: "") }
-    var semester by remember { mutableStateOf(prefs.getSemester().toString()) }
     var status by remember { mutableStateOf<String?>(null) }
     var loading by remember { mutableStateOf(false) }
 
     var result by remember { mutableStateOf(prefs.getLastResult()) }
-    var showCustomNames by remember { mutableStateOf(prefs.getShowCustomNames()) }
-    var subjectNames by remember { mutableStateOf(prefs.getSubjectNames()) }
-
-    var namesSavedMessage by remember { mutableStateOf<String?>(null) }
+    var nameOverrides by remember { mutableStateOf(prefs.getSubjectNames()) }
+    var useCustomNames by remember { mutableStateOf(prefs.getUseCustomNames()) }
 
     LazyColumn(
         modifier = Modifier
@@ -84,7 +75,8 @@ fun AttendanceSetupScreen() {
             Spacer(Modifier.height(4.dp))
             Text(
                 "Your Etlab credentials are stored encrypted, only on this device, " +
-                    "and are only ever sent to lbscek.etlab.app.",
+                        "and are only ever sent to lbscek.etlab.app. This always shows your " +
+                        "current semester's attendance automatically.",
                 style = MaterialTheme.typography.bodySmall
             )
             Spacer(Modifier.height(24.dp))
@@ -105,36 +97,26 @@ fun AttendanceSetupScreen() {
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(Modifier.height(12.dp))
-            OutlinedTextField(
-                value = semester,
-                onValueChange = { input -> semester = input.filter { it.isDigit() }.take(1) },
-                label = { Text("Semester (1-8)") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth()
-            )
             Spacer(Modifier.height(20.dp))
 
             Button(
                 enabled = !loading && username.isNotBlank() && password.isNotBlank(),
                 onClick = {
-                    val sem = semester.toIntOrNull()?.coerceIn(1, 8) ?: 1
                     loading = true
                     status = null
                     scope.launch {
                         try {
                             val repo = EtlabRepository()
-                            val fetched: AttendanceResult = withContext(Dispatchers.IO) {
-                                repo.fetchAttendance(username.trim(), password, sem)
-                            }
-                            prefs.saveCredentials(username.trim(), password, sem)
+                            val fetchResult = repo.fetchAttendance(username.trim(), password)
+                            val fetched: AttendanceResult = fetchResult.attendance
+
+                            prefs.saveCredentials(username.trim(), password)
                             prefs.saveLastResult(fetched)
                             AttendanceWidget().updateAll(context)
                             AttendanceWorker.schedulePeriodic(context)
                             result = fetched
                             status = "Success — overall attendance is %.1f%%. ".format(fetched.overallPercent) +
-                                "Now add the widget from your home screen's widget picker."
+                                    "Now add the widget from your home screen's widget picker."
                         } catch (e: InvalidCredentialsException) {
                             status = "Invalid username or password."
                         } catch (e: Exception) {
@@ -164,22 +146,22 @@ fun AttendanceSetupScreen() {
                 Text("Subject names", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "Etlab only gives us course codes, not full names. Fill these in once " +
-                        "and the widget can show names instead.",
+                    "Etlab already gave us the real names below. Only fill these in if " +
+                            "you want to shorten or rename one on the widget.",
                     style = MaterialTheme.typography.bodySmall
                 )
                 Spacer(Modifier.height(12.dp))
-                Row {
+                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                     Text(
-                        "Show names on widget (instead of codes)",
+                        "Use my custom names",
                         modifier = Modifier.weight(1f),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Switch(
-                        checked = showCustomNames,
-                        onCheckedChange = {
-                            showCustomNames = it
-                            prefs.saveShowCustomNames(it)
+                        checked = useCustomNames,
+                        onCheckedChange = { checked ->
+                            useCustomNames = checked
+                            prefs.saveUseCustomNames(checked)
                             scope.launch { AttendanceWidget().updateAll(context) }
                         }
                     )
@@ -189,11 +171,12 @@ fun AttendanceSetupScreen() {
 
             items(currentResult.subjects) { subject ->
                 OutlinedTextField(
-                    value = subjectNames[subject.code] ?: "",
+                    value = nameOverrides[subject.code] ?: "",
                     onValueChange = { input ->
-                        subjectNames = subjectNames.toMutableMap().apply { put(subject.code, input) }
+                        nameOverrides = nameOverrides.toMutableMap().apply { put(subject.code, input) }
                     },
                     label = { Text(subject.code) },
+                    placeholder = { Text(subject.name.ifBlank { subject.code }) },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -205,17 +188,12 @@ fun AttendanceSetupScreen() {
                 Spacer(Modifier.height(8.dp))
                 Button(
                     onClick = {
-                        prefs.saveSubjectNames(subjectNames)
-                        namesSavedMessage = "Saved. Showing names: $showCustomNames"
+                        prefs.saveSubjectNames(nameOverrides)
                         scope.launch { AttendanceWidget().updateAll(context) }
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Save names")
-                }
-                namesSavedMessage?.let {
-                    Spacer(Modifier.height(8.dp))
-                    Text(it, style = MaterialTheme.typography.bodySmall)
+                    Text("Save name overrides")
                 }
                 Spacer(Modifier.height(24.dp))
             }

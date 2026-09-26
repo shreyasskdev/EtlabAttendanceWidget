@@ -107,6 +107,7 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
+drawable bg_widget
 drawable glance_abc_btn_check_material_anim_enabled
 drawable glance_btn_checkbox_checked_mtrl
 drawable glance_btn_checkbox_checked_to_unchecked_mtrl_animation

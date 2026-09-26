@@ -7,9 +7,11 @@ import androidx.security.crypto.MasterKey
 import org.json.JSONObject
 
 /**
- * Stores the Etlab username/password and the last scraped attendance result
+ * Stores the Etlab username/password and the last fetched attendance result
  * in EncryptedSharedPreferences, so credentials never sit in plain text on
- * the device.
+ * the device. Also stores optional per-subject name overrides -- Etlab's
+ * API already gives us real subject names, but you can shorten/rename them
+ * here if you want (e.g. "Analog & Digital Communication" -> "ADC").
  */
 class AttendancePrefs(context: Context) {
 
@@ -25,17 +27,15 @@ class AttendancePrefs(context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    fun saveCredentials(username: String, password: String, semester: Int) {
+    fun saveCredentials(username: String, password: String) {
         prefs.edit()
             .putString(KEY_USERNAME, username)
             .putString(KEY_PASSWORD, password)
-            .putInt(KEY_SEMESTER, semester)
             .apply()
     }
 
     fun getUsername(): String? = prefs.getString(KEY_USERNAME, null)
     fun getPassword(): String? = prefs.getString(KEY_PASSWORD, null)
-    fun getSemester(): Int = prefs.getInt(KEY_SEMESTER, 1)
     fun hasCredentials(): Boolean = getUsername() != null && getPassword() != null
 
     fun saveLastResult(result: AttendanceResult) {
@@ -61,6 +61,7 @@ class AttendancePrefs(context: Context) {
         }
     }
 
+    /** Optional per-subject display-name override, keyed by course code. */
     fun saveSubjectNames(names: Map<String, String>) {
         val json = JSONObject()
         names.forEach { (code, name) -> json.put(code, name) }
@@ -73,19 +74,18 @@ class AttendancePrefs(context: Context) {
         return json.keys().asSequence().associateWith { json.getString(it) }
     }
 
-    fun saveShowCustomNames(show: Boolean) {
-        prefs.edit().putBoolean(KEY_SHOW_CUSTOM_NAMES, show).apply()
-    }
-
-    fun getShowCustomNames(): Boolean = prefs.getBoolean(KEY_SHOW_CUSTOM_NAMES, false)
-
     private companion object {
         const val KEY_USERNAME = "username"
         const val KEY_PASSWORD = "password"
-        const val KEY_SEMESTER = "semester"
         const val KEY_LAST_RESULT = "last_result"
         const val KEY_LAST_UPDATED = "last_updated"
         const val KEY_SUBJECT_NAMES = "subject_names"
-        const val KEY_SHOW_CUSTOM_NAMES = "show_custom_names"
+        const val KEY_USE_CUSTOM_NAMES = "use_custom_names"
     }
+
+    fun saveUseCustomNames(useCustom: Boolean) {
+        prefs.edit().putBoolean(KEY_USE_CUSTOM_NAMES, useCustom).apply()
+    }
+
+    fun getUseCustomNames(): Boolean = prefs.getBoolean(KEY_USE_CUSTOM_NAMES, true)
 }
