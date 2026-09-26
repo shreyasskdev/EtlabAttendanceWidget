@@ -177,13 +177,16 @@ class AttendanceWidget : GlanceAppWidget() {
         modifier: GlanceModifier
     ) {
         val statusLabel = if (overallPercent >= 75.0) "On Track" else "Low"
-        val labelColor = GlanceTheme.colors.onPrimaryContainer.getColor(LocalContext.current)
+        val labelColor = GlanceTheme.colors.primaryContainer.getColor(LocalContext.current)
+        val labelColorProvider = GlanceTheme.colors.primaryContainer
+        // val labelColor = GlanceTheme.colors.onPrimaryContainer.getColor(LocalContext.current)
 
         Box(
             modifier = modifier
                 .background(
                     imageProvider = ImageProvider(R.drawable.bg_card_summary),
-                    colorFilter = ColorFilter.tint(GlanceTheme.colors.primaryContainer)
+                    colorFilter = ColorFilter.tint(GlanceTheme.colors.onPrimaryContainer),
+                    // colorFilter = ColorFilter.tint(GlanceTheme.colors.primaryContainer)
                 )
                 .padding(10.dp)
         ) {
@@ -197,7 +200,7 @@ class AttendanceWidget : GlanceAppWidget() {
                         text = "SUMMARY",
                         fontSize = 12.sp,
                         color = labelColor,
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = GlanceModifier.width(4.dp))
                     RotatedText(
@@ -214,7 +217,7 @@ class AttendanceWidget : GlanceAppWidget() {
                     Text(
                         "%.0f".format(overallPercent),
                         style = TextStyle(
-                            color = GlanceTheme.colors.onPrimaryContainer,
+                            color = labelColorProvider,
                             fontSize = 32.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Serif
@@ -223,7 +226,7 @@ class AttendanceWidget : GlanceAppWidget() {
                     Text(
                         "%",
                         style = TextStyle(
-                            color = GlanceTheme.colors.onPrimaryContainer,
+                            color = labelColorProvider,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Serif
@@ -232,12 +235,12 @@ class AttendanceWidget : GlanceAppWidget() {
                 }
                 Text(
                     statusLabel,
-                    style = TextStyle(color = GlanceTheme.colors.onPrimaryContainer, fontSize = 10.sp)
+                    style = TextStyle(color = labelColorProvider, fontSize = 10.sp)
                 )
                 Spacer(modifier = GlanceModifier.height(4.dp))
                 Text(
                     updatedText,
-                    style = TextStyle(color = GlanceTheme.colors.onPrimaryContainer, fontSize = 7.sp)
+                    style = TextStyle(color = labelColorProvider, fontSize = 7.sp)
                 )
             }
         }
