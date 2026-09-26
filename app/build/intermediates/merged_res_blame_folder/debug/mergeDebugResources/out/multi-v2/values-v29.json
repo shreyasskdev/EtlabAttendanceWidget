@@ -4,7 +4,7 @@
             "outputFile": "in.lbscek.attendance.app-mergeDebugResources-56:/values-v29/values-v29.xml",
             "map": [
                 {
-                    "source": "/home/shreyas/.gradle/caches/transforms-4/472017c6dcd22a1f845a41d76a2651a5/transformed/glance-appwidget-1.1.1/res/values-v29/values-v29.xml",
+                    "source": "/home/shreyas/.gradle/caches/9.6.0/transforms/c3f898df5a9d46d4f6b24d83941e8299/transformed/glance-appwidget-1.1.1/res/values-v29/values-v29.xml",
                     "from": {
                         "startLines": "2,5,19,22,25,26,27",
                         "startColumns": "4,4,4,4,4,4,4",

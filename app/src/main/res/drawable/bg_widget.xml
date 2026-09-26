@@ -4,10 +4,6 @@
 
     <solid android:color="#1A1A1A" />
 
-    <corners
-        android:topLeftRadius="14dp"
-        android:topRightRadius="14dp"
-        android:bottomRightRadius="14dp"
-        android:bottomLeftRadius="5dp" />
+    <corners android:radius="@dimen/card_outer_corner_radius" />
 
 </shape>

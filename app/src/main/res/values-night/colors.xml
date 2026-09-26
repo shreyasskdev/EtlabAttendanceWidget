@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="subject_card_tertiary_container">#2E4E3F</color>
+    <color name="subject_card_secondary_container">#4A452A</color>
+    <color name="subject_card_error_container">#5C2B29</color>
+</resources>

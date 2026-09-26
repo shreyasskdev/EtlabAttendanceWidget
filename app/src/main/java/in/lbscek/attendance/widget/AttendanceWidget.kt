@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -23,7 +24,6 @@ import androidx.glance.LocalContext
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.action.actionStartActivity
-import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
@@ -45,6 +45,7 @@ import androidx.glance.text.FontStyle
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import `in`.lbscek.attendance.R
 import `in`.lbscek.attendance.data.AttendancePrefs
 import `in`.lbscek.attendance.data.AttendanceResult
 import `in`.lbscek.attendance.data.SubjectAttendance
@@ -117,6 +118,9 @@ class AttendanceWidget : GlanceAppWidget() {
                     ) {
                         val rows = result.subjects.chunked(2)
                         rows.forEachIndexed { index, pair ->
+                            val isTopRow = (index == 0)
+                            val isBottomRow = (index == rows.size - 1)
+
                             Row(
                                 modifier = GlanceModifier
                                     .fillMaxWidth()
@@ -128,14 +132,18 @@ class AttendanceWidget : GlanceAppWidget() {
                                         subject = pair[0],
                                         label = labelFor(pair[0], subjectNameOverrides),
                                         context = context,
-                                        modifier = GlanceModifier.defaultWeight().fillMaxHeight()
+                                        modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
+                                        isTopRight = false,
+                                        isBottomRight = false
                                     )
                                     Spacer(modifier = GlanceModifier.width(7.dp))
                                     SubjectCard(
                                         subject = pair[1],
                                         label = labelFor(pair[1], subjectNameOverrides),
                                         context = context,
-                                        modifier = GlanceModifier.defaultWeight().fillMaxHeight()
+                                        modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
+                                        isTopRight = isTopRow,
+                                        isBottomRight = isBottomRow
                                     )
                                 } else {
                                     // Odd one out: let it take the whole row width.
@@ -143,7 +151,9 @@ class AttendanceWidget : GlanceAppWidget() {
                                         subject = pair[0],
                                         label = labelFor(pair[0], subjectNameOverrides),
                                         context = context,
-                                        modifier = GlanceModifier.defaultWeight().fillMaxHeight()
+                                        modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
+                                        isTopRight = isTopRow,
+                                        isBottomRight = isBottomRow
                                     )
                                 }
                             }
@@ -171,8 +181,10 @@ class AttendanceWidget : GlanceAppWidget() {
 
         Box(
             modifier = modifier
-                .background(GlanceTheme.colors.primaryContainer)
-                .cornerRadius(18.dp)
+                .background(
+                    imageProvider = ImageProvider(R.drawable.bg_card_summary),
+                    colorFilter = ColorFilter.tint(GlanceTheme.colors.primaryContainer)
+                )
                 .padding(10.dp)
         ) {
             Column(modifier = GlanceModifier.fillMaxSize()) {
@@ -280,8 +292,16 @@ class AttendanceWidget : GlanceAppWidget() {
         subject: SubjectAttendance,
         label: String,
         context: Context,
-        modifier: GlanceModifier
+        modifier: GlanceModifier,
+        isTopRight: Boolean = false,
+        isBottomRight: Boolean = false
     ) {
+        val backgroundDrawable = when {
+            isTopRight && isBottomRight -> R.drawable.bg_card_outer_top_bottom_right
+            isTopRight -> R.drawable.bg_card_outer_top_right
+            isBottomRight -> R.drawable.bg_card_outer_bottom_right
+            else -> R.drawable.bg_card_inner
+        }
         val background = when {
             subject.percent >= 85.0 -> GlanceTheme.colors.tertiaryContainer
             subject.percent >= 65.0 -> GlanceTheme.colors.secondaryContainer
@@ -295,9 +315,11 @@ class AttendanceWidget : GlanceAppWidget() {
 
         Box(
             modifier = modifier
-                .background(background)
+                .background(
+                    imageProvider = ImageProvider(backgroundDrawable),
+                    colorFilter = ColorFilter.tint(background)
+                )
                 .padding(horizontal = 10.dp)
-                .cornerRadius(radius = 14.dp)
                 .clickable(
                     actionStartActivity(
                         Intent(context, MainActivity::class.java)

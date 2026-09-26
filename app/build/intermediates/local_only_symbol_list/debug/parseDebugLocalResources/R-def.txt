@@ -1,5 +1,20 @@
 R_DEF: Internal format may change without notice
 local
+color subject_card_error_container
+color subject_card_secondary_container
+color subject_card_tertiary_container
+dimen card_bottom_left_corner_radius
+dimen card_inner_corner_radius
+dimen card_outer_corner_radius
+drawable bg_card_inner
+drawable bg_card_outer_bottom_right
+drawable bg_card_outer_top_bottom_right
+drawable bg_card_outer_top_right
+drawable bg_card_summary
+drawable bg_subject_card
+drawable bg_subject_card_error
+drawable bg_subject_card_secondary
+drawable bg_subject_card_tertiary
 drawable bg_widget
 string app_name
 string widget_description

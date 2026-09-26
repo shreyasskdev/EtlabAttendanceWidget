@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_outer_corner_radius">16dp</dimen>
+    <dimen name="card_inner_corner_radius">10dp</dimen>
+    <dimen name="card_bottom_left_corner_radius">5dp</dimen>
+</resources>
